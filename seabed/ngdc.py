@@ -11,10 +11,10 @@ import requests
 from requests import Response, Session
 from requests_futures.sessions import FuturesSession
 
-from .seabed import SeabedDescriptions
+from .base import SeabedDescriptions
 from .utilities import get_logger
 
-LOGGER = get_logger('configuration.seabed.ngdc')
+LOGGER = get_logger('ngdc')
 
 URL = 'https://www.ngdc.noaa.gov/geosamples/surveydisplay.jsp'
 DATA_CRS = CRS.from_epsg(4326)
@@ -132,7 +132,7 @@ class NGDCSeabedDescriptions(SeabedDescriptions):
 
         table = GeoDataFrame(data, crs=crs)
         if self.bounds is not None and table.shape[0] > 0:
-            table = table.cx[self.bounds[0] : self.bounds[2], self.bounds[1] : self.bounds[3]]
+            table = table.cx[self.bounds[0]: self.bounds[2], self.bounds[1]: self.bounds[3]]
         return table
 
     @property

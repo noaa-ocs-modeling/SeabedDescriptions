@@ -7,7 +7,7 @@ from pyproj import CRS
 
 from .utilities import get_logger
 
-LOGGER = get_logger('configuration.seabed')
+LOGGER = get_logger('base')
 
 
 class SeabedDescriptions(ABC):
