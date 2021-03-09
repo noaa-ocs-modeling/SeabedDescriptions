@@ -1,8 +1,10 @@
 from abc import ABC, abstractmethod
-import os
 from os import PathLike
+from pathlib import Path
+from typing import Union
 
 from geopandas import GeoDataFrame
+import numpy
 from pyproj import CRS
 
 from .utilities import get_logger
@@ -22,8 +24,29 @@ class SeabedDescriptions(ABC):
         crs: CRS = None,
     ):
         self.bounds = bounds
-        self.__surveys = surveys
-        self.crs = CRS.from_user_input(crs) if crs is not None else None
+        self.surveys = surveys
+        self.crs = crs
+
+    @property
+    def bounds(self) -> (float, float, float, float):
+        return self.__bounds
+
+    @bounds.setter
+    def bounds(self, bounds: (float, float, float, float)):
+        if isinstance(bounds, numpy.ndarray):
+            if len(bounds.shape) > 1:
+                bounds = bounds.ravel()
+        else:
+            bounds = numpy.asarray(bounds)
+        self.__bounds = bounds
+
+    @property
+    def crs(self) -> CRS:
+        return self.__crs
+
+    @crs.setter
+    def crs(self, crs: Union[CRS, str]):
+        self.__crs = CRS.from_user_input(crs) if crs is not None else None
 
     @classmethod
     @abstractmethod
@@ -32,9 +55,11 @@ class SeabedDescriptions(ABC):
 
     @property
     def surveys(self) -> [str]:
-        if self.__surveys is None:
-            self.__surveys = self.__class__.all_surveys()
         return self.__surveys
+
+    @surveys.setter
+    def surveys(self, surveys: [str]):
+        self.__surveys = surveys if surveys is not None else self.__class__.all_surveys()
 
     def __getitem__(self, survey: str) -> GeoDataFrame:
         raise NotImplementedError
@@ -64,7 +89,9 @@ class SeabedDescriptions(ABC):
             '.xml': 'GML',
         }
 
-        extension = os.path.splitext(filename)[-1]
-        kwargs['driver'] = drivers[extension]
+        if not isinstance(filename, Path):
+            filename = Path(filename)
+
+        kwargs['driver'] = drivers[filename.suffix]
 
         self.data.to_file(str(filename), **kwargs)
