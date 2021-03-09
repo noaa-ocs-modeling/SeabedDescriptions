@@ -9,9 +9,10 @@ if __name__ == '__main__':
     # retrieve a list of the first 5 surveys
     first_5_surveys = NGDCSeabedDescriptions.all_surveys()[:5]
 
-    # get surveys within specific bounds
-    seabed_object = NGDCSeabedDescriptions(surveys=first_5_surveys, bounds=bounds)
-    surveys_within_bounds = seabed_object.surveys
+    # intialize a Seabed Description object with specific surveys and bounds
+    seabed_descriptions = NGDCSeabedDescriptions(surveys=first_5_surveys, bounds=bounds)
 
-    print(f'all surveys: {first_5_surveys}')
-    print(f'surveys within transformed bounds: {surveys_within_bounds}')
+    print(f'surveys: {seabed_descriptions.surveys}')
+    print(f'bounds: {seabed_descriptions.bounds}')
+    print(f'descriptions: {seabed_descriptions.descriptions}')
+    print(f'data: {seabed_descriptions.data}')
