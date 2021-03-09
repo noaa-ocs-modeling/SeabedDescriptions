@@ -10,9 +10,11 @@ if __name__ == '__main__':
     first_5_surveys = NGDCSeabedDescriptions.all_surveys()[:5]
 
     # intialize a Seabed Description object with specific surveys and bounds
-    seabed_descriptions = NGDCSeabedDescriptions(surveys=first_5_surveys, bounds=bounds)
+    seabed_object = NGDCSeabedDescriptions(surveys=first_5_surveys, bounds=bounds)
 
-    print(f'surveys: {seabed_descriptions.surveys}')
-    print(f'bounds: {seabed_descriptions.bounds}')
-    print(f'descriptions: {seabed_descriptions.descriptions}')
-    print(f'data: {seabed_descriptions.data}')
+    print(f'surveys: {seabed_object.surveys}')
+    print(f'bounds: {seabed_object.bounds}')
+    print(f'descriptions: {seabed_object.descriptions}')
+    print(f'data: \n{seabed_object.data}')
+
+    print(NGDCSeabedDescriptions.all_surveys())

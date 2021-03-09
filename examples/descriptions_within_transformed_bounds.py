@@ -26,4 +26,4 @@ if __name__ == '__main__':
     print(f'surveys: {seabed_object.surveys}')
     print(f'bounds: {seabed_object.bounds}')
     print(f'descriptions: {seabed_object.descriptions}')
-    print(f'data: {seabed_object.data}')
+    print(f'data: \n{seabed_object.data}')
