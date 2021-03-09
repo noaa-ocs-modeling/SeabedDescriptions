@@ -33,7 +33,6 @@ class NGDCSeabedDescriptions(SeabedDescriptions):
     @classmethod
     def all_surveys(cls) -> [str]:
         response = requests.get(URL)
-        print(response.status_code)
         if response.status_code != 200:
             raise ConnectionError(
                 f'abnormal status "{response.status_code}" when connecting to {URL}'
