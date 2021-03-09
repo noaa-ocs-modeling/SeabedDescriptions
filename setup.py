@@ -18,7 +18,8 @@ if is_conda:
             importlib.import_module(conda_package)
         except:
             conda_packages.append(conda_package)
-    subprocess.check_call(['conda', 'install', '-y', *conda_packages])
+    if len(conda_packages) > 0:
+        subprocess.check_call(['conda', 'install', '-y', *conda_packages])
 
 if os.name == 'nt':
     for required_package, pipwin_dependencies in BUILT_PACKAGES.items():
